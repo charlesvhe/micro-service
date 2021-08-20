@@ -1,0 +1,4 @@
+GET http://localhost:8888/actuator/gateway/routes HTTP/1.1
+
+GET http://localhost:8888/testProvider HTTP/1.1
+GET http://localhost:8888/testConsumer HTTP/1.1

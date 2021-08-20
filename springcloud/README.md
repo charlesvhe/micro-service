@@ -19,4 +19,5 @@
 --spring.cloud.nacos.config.server-addr=localhost:8848
 --spring.cloud.nacos.discovery.server-addr=localhost:8848
 --management.endpoints.web.exposure.include=*
+--management.endpoint.gateway.enabled=true
 --spring.cloud.gateway.discovery.locator.enabled=true

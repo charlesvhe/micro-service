@@ -1,0 +1,8 @@
+GET http://localhost:8080/actuator HTTP/1.1
+GET http://localhost:8080/actuator/env HTTP/1.1
+GET http://localhost:8080/test HTTP/1.1
+
+GET http://localhost:8081/test HTTP/1.1
+
+GET http://localhost:8888/actuator/gateway/routes HTTP/1.1
+GET http://localhost:8888/consumer/test HTTP/1.1
