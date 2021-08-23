@@ -44,11 +44,11 @@ func main() {
 	//服务初始化
 	service.Init(
 		micro.BeforeStart(func() error {
-			logger.Info("sum-srv服务启动前日志")
+			logger.Info("provider服务启动前日志")
 			return nil
 		}),
 		micro.AfterStart(func() error {
-			logger.Info("sum-srv服务启动后日志")
+			logger.Infof("provider服务启动,注册地址为 %v\n", nacosAddr)
 			return nil
 		}),
 	)

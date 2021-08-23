@@ -15,8 +15,6 @@ import (
 
 var etcdRegistry registry.Registry
 
-const nacosNamespace = "dev"
-
 const (
 	defaultNacosAddr      = "127.0.0.1:8848"
 	defaultNacosNamespace = "dev"
@@ -61,7 +59,13 @@ func main() {
 		micro.Registry(nacosRegistry),
 		//micro.Registry(etcd.NewRegistry()),
 	)
-	service.Init()
+	//服务初始化
+	service.Init(
+		micro.AfterStart(func() error {
+			logger.Infof("consumer服务启动,注册地址为 %v\n", nacosAddr)
+			return nil
+		}),
+	)
 
 	// Run service
 	if err := service.Run(); err != nil {
