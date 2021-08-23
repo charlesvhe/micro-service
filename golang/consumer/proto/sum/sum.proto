@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+
+package sum;
+
+option go_package="../sum";
+
+
+message SumRequest{
+    int64 input=1;
+}
+
+message SumResponse{
+    int64 output=1;
+}
+
+
+service Sum{
+    rpc GetSum(SumRequest)returns(SumResponse){}
+}
