@@ -1,0 +1,13 @@
+{
+  "details": {
+    "endpoint": "http://localhost:50052",
+    "methodFqn": "consumer.Consumer.test"
+  },
+  "requests": [
+    {
+      "location": "test-request.json"
+    }
+  ],
+  "operationType": "unary",
+  "invokerName": "grpc"
+}
