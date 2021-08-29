@@ -1,10 +1,10 @@
 use tonic::{transport::Server, Request, Response, Status};
 
 use provider::provider_server::{Provider, ProviderServer};
-use provider::{Msg};
+use provider::Msg;
 
 pub mod provider {
-    tonic::include_proto!("provider");
+    include!("provider.rs");
 }
 
 #[derive(Debug, Default)]
@@ -12,10 +12,7 @@ pub struct MyProvider {}
 
 #[tonic::async_trait]
 impl Provider for MyProvider {
-    async fn test(
-        &self,
-        request: Request<Msg>,
-    ) -> Result<Response<Msg>, Status> {
+    async fn test(&self, request: Request<Msg>) -> Result<Response<Msg>, Status> {
         println!("Got a request: {:?}", request);
 
         let reply = provider::Msg {

@@ -6,11 +6,11 @@ use consumer::Msg;
 use provider::provider_client::ProviderClient;
 
 pub mod consumer {
-    tonic::include_proto!("consumer");
+    include!("consumer.rs");
 }
 
 pub mod provider {
-    tonic::include_proto!("provider");
+    include!("provider.rs");
 }
 
 #[derive(Debug, Default)]
@@ -21,15 +21,20 @@ impl Consumer for MyConsumer {
     async fn test(&self, request: Request<Msg>) -> Result<Response<Msg>, Status> {
         println!("Got a request: {:?}", request);
 
-        let mut client:ProviderClient<_> =
-            ProviderClient::connect("http://localhost:50051").await.unwrap();
+        let mut client: ProviderClient<_> = ProviderClient::connect("http://localhost:50051")
+            .await
+            .unwrap();
 
         let msg = tonic::Request::new(provider::Msg {
             name: request.into_inner().name,
         });
 
         let reply = consumer::Msg {
-            name: format!("Consumer Hello {}!", client.test(msg).await.unwrap().into_inner().name).into(),
+            name: format!(
+                "Consumer Hello {}!",
+                client.test(msg).await.unwrap().into_inner().name
+            )
+            .into(),
             // name: format!("Consumer Hello {}!", request.into_inner().name).into(),
         };
 
