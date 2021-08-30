@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	httpServer "github.com/asim/go-micro/plugins/server/http/v3"
 	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/registry"
@@ -13,11 +12,8 @@ import (
 	"os"
 )
 
-var etcdRegistry registry.Registry
-
 const (
-	defaultNacosAddr      = "127.0.0.1:8848"
-	defaultNacosNamespace = "dev"
+	defaultNacosAddr = "172.30.8.225:8848"
 )
 
 func main() {
@@ -28,16 +24,8 @@ func main() {
 		nacosAddr = defaultNacosAddr
 	}
 
-	var nacosNamespace string
-	nacosNamespace = os.Getenv("NacosNamespace")
-	if nacosNamespace == "" {
-		nacosNamespace = defaultNacosNamespace
-	}
 	nacosRegistry := nacos.NewRegistry(func(options *registry.Options) {
 		options.Addrs = []string{nacosAddr}
-		// 支持 namespace
-		options.Context = context.WithValue(context.Background(), &nacos.NacosNamespaceContextKey{}, nacosNamespace)
-
 	})
 	srv := httpServer.NewServer(
 		server.Name("consumer"),
@@ -57,15 +45,8 @@ func main() {
 	service := micro.NewService(
 		micro.Server(srv),
 		micro.Registry(nacosRegistry),
-		//micro.Registry(etcd.NewRegistry()),
 	)
-	//服务初始化
-	service.Init(
-		micro.AfterStart(func() error {
-			logger.Infof("consumer服务启动,注册地址为 %v\n", nacosAddr)
-			return nil
-		}),
-	)
+	service.Init()
 
 	// Run service
 	if err := service.Run(); err != nil {

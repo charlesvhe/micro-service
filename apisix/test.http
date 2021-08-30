@@ -1,0 +1,28 @@
+GET http://localhost:9080/test HTTP/1.1
+
+GET http://localhost:9080/apisix/admin/routes HTTP/1.1
+X-API-KEY: edd1c9f034335f136f87ad84b625c8f1
+
+GET http://localhost:8848/nacos/v1/ns/instance/list?serviceName=provider
+
+PUT http://localhost:9080/apisix/admin/routes/1 HTTP/1.1
+X-API-KEY: edd1c9f034335f136f87ad84b625c8f1
+
+{
+    "uri": "/provider/*",
+    "plugins": {
+        "proxy-rewrite" : {
+            "regex_uri": ["^/provider/(.*)", "/${1}"]
+        }
+    },
+    "upstream": {
+        "service_name": "provider",
+        "type": "roundrobin",
+        "discovery_type": "nacos"
+    }
+}
+
+GET http://localhost:9080/provider/test HTTP/1.1
+
+
+
