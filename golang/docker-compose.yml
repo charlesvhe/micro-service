@@ -8,7 +8,6 @@ services:
       - "8080:8080"
     environment:
       - NacosAddr=127.0.0.1:8848
-      - NacosNamespace=dev
     command: [ "/app/main" ]
 
   provider:
@@ -17,5 +16,4 @@ services:
       - "8081:8081"
     environment:
       - NacosAddr=127.0.0.1:8848
-      - NacosNamespace=dev
     command: [ "/app/main" ]

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/registry"
@@ -14,8 +13,7 @@ import (
 var etcdReg registry.Registry
 
 const (
-	defaultNacosAddr      = "127.0.0.1:8848"
-	defaultNacosNamespace = "dev"
+	defaultNacosAddr = "172.30.8.225:8848"
 )
 
 func main() {
@@ -25,16 +23,8 @@ func main() {
 	if nacosAddr == "" {
 		nacosAddr = defaultNacosAddr
 	}
-	var nacosNamespace string
-	nacosNamespace = os.Getenv("NacosNamespace")
-	if nacosNamespace == "" {
-		nacosNamespace = defaultNacosNamespace
-	}
-
 	nacosRegistry := nacos.NewRegistry(func(options *registry.Options) {
 		options.Addrs = []string{nacosAddr}
-		options.Context = context.WithValue(context.Background(), &nacos.NacosNamespaceContextKey{}, nacosNamespace)
-
 	})
 	service := micro.NewService(
 		micro.Name("provider"),
@@ -44,11 +34,11 @@ func main() {
 	//服务初始化
 	service.Init(
 		micro.BeforeStart(func() error {
-			logger.Info("sum-srv服务启动前日志")
+			logger.Info("provider服务启动前日志")
 			return nil
 		}),
 		micro.AfterStart(func() error {
-			logger.Info("sum-srv服务启动后日志")
+			logger.Info("provider服务启动后日志")
 			return nil
 		}),
 	)
