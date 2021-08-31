@@ -23,12 +23,12 @@ func (a *sumHandler) Getsum(router *gin.Engine) {
 		inPut, _ := strconv.ParseInt(params, 10, 64)
 		service := micro.NewService()
 		service.Init()
-		client := sum.NewSumService("provider", service.Client())
+		client := sum.NewSumService("go-provider", service.Client())
 		resp, err := client.GetSum(context.Background(), &sum.SumRequest{
 			Input: inPut,
 		})
 		if err != nil {
-			logger.Error("无法调用sum-srv服务，请检查sum-srv是否存在")
+			logger.Error("无法调用go-provider服务，请检查go-provider是否存在")
 			c.JSON(500, gin.H{"code": 500, "msg": err.Error()})
 			return
 		}

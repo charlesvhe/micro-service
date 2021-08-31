@@ -10,7 +10,7 @@ func GetSum(intputs ...int64) int64 {
 	for _, v := range intputs {
 		ret += v
 	}
-	logger.Info("provider被consumer调用了")
+	logger.Info("go-provider被go-consumer调用了")
 	logger.Infof("累加结果为：%v\n", ret)
 	return ret
 

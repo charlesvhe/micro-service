@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	//"github.com/asim/go-micro/plugins/registry/nacos/v3"
 	httpServer "github.com/asim/go-micro/plugins/server/http/v3"
 	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/registry"
@@ -16,6 +15,7 @@ import (
 
 const (
 	defaultNacosAddr = "127.0.0.1:8848"
+	serviceName      = "go-consumer"
 )
 
 func main() {
@@ -31,7 +31,7 @@ func main() {
 		options.Context = context.Background()
 	})
 	srv := httpServer.NewServer(
-		server.Name("consumer"),
+		server.Name(serviceName),
 		server.Address(":8080"),
 	)
 
@@ -49,7 +49,11 @@ func main() {
 		micro.Server(srv),
 		micro.Registry(nacosRegistry),
 	)
-	service.Init()
+	service.Init(
+		micro.AfterStart(func() error {
+			logger.Infof("%v 服务启动后日志", serviceName)
+			return nil
+		}))
 
 	// Run service
 	if err := service.Run(); err != nil {
