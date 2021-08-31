@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
-	//"github.com/asim/go-micro/plugins/registry/nacos/v3"
+	"micro-service/golang/consumer/handler"
+	"os"
+
 	httpServer "github.com/asim/go-micro/plugins/server/http/v3"
 	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/registry"
@@ -10,8 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/isfk/go-micro-plugins/registry/nacos/v3"
 	"github.com/micro/micro/v3/service/logger"
-	"micro-service/golang/consumer/handler"
-	"os"
 )
 
 const (
@@ -32,10 +32,13 @@ func main() {
 	})
 	srv := httpServer.NewServer(
 		server.Name("consumer"),
-		server.Address(":8080"),
+		server.Address("127.0.0.1:8080"),
 	)
 
-	router := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
+	router := gin.New()
+	router.Use(gin.Recovery())
+
 	// 注册router
 	sumHandler := handler.NewSumHandler()
 	sumHandler.Getsum(router)
