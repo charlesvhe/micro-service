@@ -1,19 +1,20 @@
 package main
 
 import (
+	"context"
+	"github.com/asim/go-micro/plugins/registry/nacos/v3"
 	httpServer "github.com/asim/go-micro/plugins/server/http/v3"
 	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/registry"
 	"github.com/asim/go-micro/v3/server"
 	"github.com/gin-gonic/gin"
-	"github.com/isfk/go-micro-plugins/registry/nacos/v3"
 	"github.com/micro/micro/v3/service/logger"
 	"micro-service/golang/consumer/handler"
 	"os"
 )
 
 const (
-	defaultNacosAddr = "172.30.8.225:8848"
+	defaultNacosAddr = "127.0.0.1:8848"
 )
 
 func main() {
@@ -26,6 +27,7 @@ func main() {
 
 	nacosRegistry := nacos.NewRegistry(func(options *registry.Options) {
 		options.Addrs = []string{nacosAddr}
+		options.Context = context.Background()
 	})
 	srv := httpServer.NewServer(
 		server.Name("consumer"),

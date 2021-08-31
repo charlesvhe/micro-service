@@ -1,19 +1,18 @@
 package main
 
 import (
+	"context"
+	"github.com/asim/go-micro/plugins/registry/nacos/v3"
 	"github.com/asim/go-micro/v3"
 	"github.com/asim/go-micro/v3/logger"
 	"github.com/asim/go-micro/v3/registry"
-	"github.com/isfk/go-micro-plugins/registry/nacos/v3"
 	"micro-service/golang/provider/handler"
 	"micro-service/golang/provider/proto/sum"
 	"os"
 )
 
-var etcdReg registry.Registry
-
 const (
-	defaultNacosAddr = "172.30.8.225:8848"
+	defaultNacosAddr = "127.0.0.1:8848"
 )
 
 func main() {
@@ -25,6 +24,7 @@ func main() {
 	}
 	nacosRegistry := nacos.NewRegistry(func(options *registry.Options) {
 		options.Addrs = []string{nacosAddr}
+		options.Context = context.Background()
 	})
 	service := micro.NewService(
 		micro.Name("provider"),
