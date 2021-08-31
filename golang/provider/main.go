@@ -13,6 +13,7 @@ import (
 
 const (
 	defaultNacosAddr = "127.0.0.1:8848"
+	serviceName      = "go-provider"
 )
 
 func main() {
@@ -27,18 +28,14 @@ func main() {
 		options.Context = context.Background()
 	})
 	service := micro.NewService(
-		micro.Name("provider"),
+		micro.Name(serviceName),
 		micro.Registry(nacosRegistry),
 		micro.Address(":8081"),
 	)
 	//服务初始化
 	service.Init(
-		micro.BeforeStart(func() error {
-			logger.Info("provider服务启动前日志")
-			return nil
-		}),
 		micro.AfterStart(func() error {
-			logger.Info("provider服务启动后日志")
+			logger.Infof("%v服务启动完成", serviceName)
 			return nil
 		}),
 	)
