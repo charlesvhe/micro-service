@@ -1,0 +1,10 @@
+E:\temp\MicroService\Common\bin\Debug\netcoreapp3.1\Common.deps.json
+E:\temp\MicroService\Common\bin\Debug\netcoreapp3.1\Common.dll
+E:\temp\MicroService\Common\bin\Debug\netcoreapp3.1\Common.pdb
+E:\temp\MicroService\Common\obj\Debug\netcoreapp3.1\Common.csproj.AssemblyReference.cache
+E:\temp\MicroService\Common\obj\Debug\netcoreapp3.1\Common.GeneratedMSBuildEditorConfig.editorconfig
+E:\temp\MicroService\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfoInputs.cache
+E:\temp\MicroService\Common\obj\Debug\netcoreapp3.1\Common.AssemblyInfo.cs
+E:\temp\MicroService\Common\obj\Debug\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
+E:\temp\MicroService\Common\obj\Debug\netcoreapp3.1\Common.dll
+E:\temp\MicroService\Common\obj\Debug\netcoreapp3.1\Common.pdb
