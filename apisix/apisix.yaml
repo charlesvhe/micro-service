@@ -3,7 +3,7 @@ apisix:
   enable_ipv6: false
 
   allow_admin:                  # http://nginx.org/en/docs/http/ngx_http_access_module.html#allow
-    - 0.0.0.0/0              # We need to restrict ip access rules for security. 0.0.0.0/0 is for test.
+    - 0.0.0.0/0                 # We need to restrict ip access rules for security. 0.0.0.0/0 is for test.
   admin_key:
     - name: "admin"
       key: edd1c9f034335f136f87ad84b625c8f1
@@ -16,9 +16,11 @@ discovery:
   nacos:
     host:
       - "http://nacos:8848"
-      
-plugin_attr:
-  prometheus:
-    export_addr:
-      ip: "0.0.0.0"
-      port: 9091
+
+etcd:
+  host:
+    - "http://127.0.0.1:2379"
+
+# dubbo plugin not support in docker yet, https://github.com/apache/apisix/issues/5345
+# plugins:
+#   - dubbo-proxy
