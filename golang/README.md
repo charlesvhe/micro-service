@@ -1,13 +1,14 @@
 # micro-service
 微服务技术选型 springcloud、dubbo、go、.net、rust
-# 运行docker-compose
-# 进golang目录
 
-cd golang
+# micro-go v4版本有问题，先用v3
+https://github.com/asim/go-micro/tree/v3.7.0
 
-docker-compose up
+# 代码生成 确保 $GOPATH/bin 下有 protoc protoc-gen-go protoc-gen-micro
+# provider dir:
+protoc --proto_path=../../proto --micro_out=. --go_out=. provider.proto
 
-#providr 和consumer被启动后     
-#请求consumer服务，远程调用provider服务  
-#ip:8080/getsum/params   
-#example  localhost:8080/getsum/100
+# consumer dir:
+protoc --proto_path=../../proto --micro_out=. --go_out=. provider.proto consumer.proto
+
+# kerya 测试

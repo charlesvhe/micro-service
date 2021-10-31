@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package provider;
-
-service Provider { rpc test(Msg) returns (Msg); }
-
-message Msg { string name = 1; }

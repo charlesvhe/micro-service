@@ -1,10 +1,13 @@
-module github.com/charlesvhe/micro-service/v1
+module provider
 
 go 1.17
 
 require (
-	github.com/asim/go-micro/plugins/registry/nacos/v4 v4.0.0-20211027154026-e155029a4bf2
-	go-micro.dev/v4 v4.2.1
+	github.com/asim/go-micro/plugins/client/grpc/v3 v3.0.0-20210630062103-c13bb07171bc
+	github.com/asim/go-micro/plugins/registry/nacos/v3 v3.7.0
+	github.com/asim/go-micro/plugins/server/grpc/v3 v3.7.0
+	github.com/asim/go-micro/v3 v3.7.0
+	google.golang.org/protobuf v1.27.1
 )
 
 require (
@@ -49,13 +52,12 @@ require (
 	go.uber.org/multierr v1.5.0 // indirect
 	go.uber.org/zap v1.15.0 // indirect
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
-	golang.org/x/net v0.0.0-20210510120150-4163338589ed // indirect
+	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20210502180810-71e4cd670f79 // indirect
 	golang.org/x/text v0.3.6 // indirect
-	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
-	google.golang.org/grpc v1.36.1 // indirect
-	google.golang.org/protobuf v1.26.0 // indirect
+	google.golang.org/genproto v0.0.0-20200806141610-86f49bd18e98 // indirect
+	google.golang.org/grpc v1.38.0 // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect

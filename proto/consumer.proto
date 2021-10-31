@@ -1,0 +1,7 @@
+syntax = "proto3";
+option go_package = "./proto";
+
+import "provider.proto";
+package consumer;
+
+service Consumer { rpc Test(provider.Msg) returns (provider.Msg); }

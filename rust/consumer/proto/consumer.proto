@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-package consumer;
-
-service Consumer { rpc test(Msg) returns (Msg); }
-
-message Msg { string name = 1; }
