@@ -1,0 +1,13 @@
+GET http://localhost:8080/actuator HTTP/1.1
+
+GET http://localhost:8080/Provider?name=Charles HTTP/1.1
+
+GET http://localhost:8081/Consumer?name=Charles HTTP/1.1
+
+GET http://localhost:8888/todos/1 HTTP/1.1
+
+GET http://localhost:8888/provider/Provider HTTP/1.1
+
+GET http://localhost:8888/consumer/Consumer HTTP/1.1
+
+

@@ -1,0 +1,37 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/todos{any}",
+      "DownstreamPathTemplate": "/todos{any}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "jsonplaceholder.typicode.com",
+          "Port": 443
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/provider/{any}",
+      "DownstreamPathTemplate": "/{any}",
+      "DownstreamScheme": "http",
+      "ServiceName": "provider"
+    },
+    {
+      "UpstreamPathTemplate": "/consumer/{any}",
+      "DownstreamPathTemplate": "/{any}",
+      "DownstreamScheme": "http",
+      "ServiceName": "consumer"
+    }
+  ],
+  "GlobalConfiguration": {
+    "RequestIdKey": null,
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul",
+      "Token": null,
+      "ConfigurationKey": null
+    }
+  }
+}
