@@ -25,7 +25,7 @@ impl Provider for MyProvider {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "0.0.0.0:50051".parse()?;
+    let addr = "0.0.0.0:50000".parse()?;
     let provider = MyProvider::default();
 
     Server::builder()

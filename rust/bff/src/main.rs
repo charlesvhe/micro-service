@@ -1,4 +1,4 @@
-use axum::{extract::Query, handler::get, http::StatusCode, response::IntoResponse, Json, Router};
+use axum::{extract::Query, handler::get, response::IntoResponse, Json, Router};
 use std::net::SocketAddr;
 
 use serde::{Deserialize, Serialize};
@@ -23,10 +23,10 @@ struct Msg {
 async fn main() {
     // build our application with a route
     let app = Router::new()
-        .route("/testProvider", get(testProvider))
-        .route("/testConsumer", get(testConsumer));
+        .route("/provider", get(test_provider))
+        .route("/consumer", get(test_consumer));
     // run it
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    let addr = SocketAddr::from(([127, 0, 0, 1], 8888));
     println!("listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
@@ -34,12 +34,12 @@ async fn main() {
         .unwrap();
 }
 
-async fn testProvider(msg: Query<Msg>) -> impl IntoResponse {
-    let mut client: ProviderClient<_> = ProviderClient::connect("http://localhost:50051")
+async fn test_provider(msg: Query<Msg>) -> impl IntoResponse {
+    let mut client: ProviderClient<_> = ProviderClient::connect("http://localhost:50000")
         .await
         .unwrap();
 
-    let grpcMsg = client
+    let grpc_msg = client
         .test(tonic::Request::new(provider::Msg {
             name: msg.name.clone(),
         }))
@@ -47,21 +47,25 @@ async fn testProvider(msg: Query<Msg>) -> impl IntoResponse {
         .unwrap()
         .into_inner();
 
-    Json(Msg { name: grpcMsg.name })
+    Json(Msg {
+        name: grpc_msg.name,
+    })
 }
 
-async fn testConsumer(msg: Query<Msg>) -> impl IntoResponse {
-    let mut client: ConsumerClient<_> = ConsumerClient::connect("http://localhost:50052")
+async fn test_consumer(msg: Query<Msg>) -> impl IntoResponse {
+    let mut client: ConsumerClient<_> = ConsumerClient::connect("http://localhost:60000")
         .await
         .unwrap();
 
-    let grpcMsg = client
-        .test(tonic::Request::new(consumer::Msg {
+    let grpc_msg = client
+        .test(tonic::Request::new(provider::Msg {
             name: msg.name.clone(),
         }))
         .await
         .unwrap()
         .into_inner();
 
-    Json(Msg { name: grpcMsg.name })
+    Json(Msg {
+        name: grpc_msg.name,
+    })
 }

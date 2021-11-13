@@ -1,8 +1,3 @@
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Msg {
-    #[prost(string, tag = "1")]
-    pub name: ::prost::alloc::string::String,
-}
 #[doc = r" Generated client implementations."]
 pub mod consumer_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
@@ -65,8 +60,8 @@ pub mod consumer_client {
         }
         pub async fn test(
             &mut self,
-            request: impl tonic::IntoRequest<super::Msg>,
-        ) -> Result<tonic::Response<super::Msg>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::super::provider::Msg>,
+        ) -> Result<tonic::Response<super::super::provider::Msg>, tonic::Status> {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -74,7 +69,7 @@ pub mod consumer_client {
                 )
             })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/consumer.Consumer/test");
+            let path = http::uri::PathAndQuery::from_static("/consumer.Consumer/Test");
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
@@ -88,8 +83,8 @@ pub mod consumer_server {
     pub trait Consumer: Send + Sync + 'static {
         async fn test(
             &self,
-            request: tonic::Request<super::Msg>,
-        ) -> Result<tonic::Response<super::Msg>, tonic::Status>;
+            request: tonic::Request<super::super::provider::Msg>,
+        ) -> Result<tonic::Response<super::super::provider::Msg>, tonic::Status>;
     }
     #[derive(Debug)]
     pub struct ConsumerServer<T: Consumer> {
@@ -130,13 +125,16 @@ pub mod consumer_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/consumer.Consumer/test" => {
+                "/consumer.Consumer/Test" => {
                     #[allow(non_camel_case_types)]
-                    struct testSvc<T: Consumer>(pub Arc<T>);
-                    impl<T: Consumer> tonic::server::UnaryService<super::Msg> for testSvc<T> {
-                        type Response = super::Msg;
+                    struct TestSvc<T: Consumer>(pub Arc<T>);
+                    impl<T: Consumer> tonic::server::UnaryService<super::super::provider::Msg> for TestSvc<T> {
+                        type Response = super::super::provider::Msg;
                         type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(&mut self, request: tonic::Request<super::Msg>) -> Self::Future {
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::super::provider::Msg>,
+                        ) -> Self::Future {
                             let inner = self.0.clone();
                             let fut = async move { (*inner).test(request).await };
                             Box::pin(fut)
@@ -147,7 +145,7 @@ pub mod consumer_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let inner = inner.0;
-                        let method = testSvc(inner);
+                        let method = TestSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec).apply_compression_config(
                             accept_compression_encodings,

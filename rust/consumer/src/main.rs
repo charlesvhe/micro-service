@@ -1,7 +1,7 @@
 use tonic::{transport::Server, Request, Response, Status};
 
 use consumer::consumer_server::{Consumer, ConsumerServer};
-use consumer::Msg;
+use provider::Msg;
 
 use provider::provider_client::ProviderClient;
 
@@ -21,7 +21,7 @@ impl Consumer for MyConsumer {
     async fn test(&self, request: Request<Msg>) -> Result<Response<Msg>, Status> {
         println!("Got a request: {:?}", request);
 
-        let mut client: ProviderClient<_> = ProviderClient::connect("http://localhost:50051")
+        let mut client: ProviderClient<_> = ProviderClient::connect("http://localhost:50000")
             .await
             .unwrap();
 
@@ -29,7 +29,7 @@ impl Consumer for MyConsumer {
             name: request.into_inner().name,
         });
 
-        let reply = consumer::Msg {
+        let reply = provider::Msg {
             name: format!(
                 "Consumer Hello {}!",
                 client.test(msg).await.unwrap().into_inner().name
@@ -44,7 +44,7 @@ impl Consumer for MyConsumer {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "0.0.0.0:50052".parse()?;
+    let addr = "0.0.0.0:60000".parse()?;
     let consumer = MyConsumer::default();
 
     Server::builder()

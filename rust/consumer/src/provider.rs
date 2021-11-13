@@ -74,7 +74,7 @@ pub mod provider_client {
                 )
             })?;
             let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/provider.Provider/test");
+            let path = http::uri::PathAndQuery::from_static("/provider.Provider/Test");
             self.inner.unary(request.into_request(), path, codec).await
         }
     }
@@ -130,10 +130,10 @@ pub mod provider_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/provider.Provider/test" => {
+                "/provider.Provider/Test" => {
                     #[allow(non_camel_case_types)]
-                    struct testSvc<T: Provider>(pub Arc<T>);
-                    impl<T: Provider> tonic::server::UnaryService<super::Msg> for testSvc<T> {
+                    struct TestSvc<T: Provider>(pub Arc<T>);
+                    impl<T: Provider> tonic::server::UnaryService<super::Msg> for TestSvc<T> {
                         type Response = super::Msg;
                         type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
                         fn call(&mut self, request: tonic::Request<super::Msg>) -> Self::Future {
@@ -147,7 +147,7 @@ pub mod provider_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let inner = inner.0;
-                        let method = testSvc(inner);
+                        let method = TestSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec).apply_compression_config(
                             accept_compression_encodings,

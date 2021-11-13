@@ -27,7 +27,7 @@ func (p *Provider) Test(ctx context.Context, req *proto.Msg, rsp *proto.Msg) err
 
 func main() {
 	registry := nacos.NewRegistry(func(options *registry.Options) {
-		options.Addrs = []string{"192.168.1.9:8848"}
+		options.Addrs = []string{"localhost:8848"}
 		options.Context = context.Background()
 	})
 	// create a new service
@@ -35,7 +35,7 @@ func main() {
 		micro.Server(gRpcServer.NewServer()),
 		micro.Client(gRpcClient.NewClient()),
 		micro.Name("go-provider"),
-		micro.Address(":5000"),
+		micro.Address(":50000"),
 		micro.Registry(registry),
 	)
 
