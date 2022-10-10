@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: apisix
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apisix
+  labels:
+    app: apisix
+    service: apisix
+spec:
+  type: NodePort  #对外暴露调试用
+  ports:
+    - name: apisix-http
+      port: 9080  #服务间调用端口
+      targetPort: 9080  #容器端口
+      nodePort: 30080  #外部访问端口
+    - name: apisix-https
+      port: 9443
+      targetPort: 9443
+      nodePort: 30443
+    - name: apisix-dashboard-http
+      port: 9000
+      targetPort: 9000
+      nodePort: 30000
+  selector:
+    app: apisix
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apisix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apisix
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: apisix
+        version: v1
+    spec:
+      serviceAccountName: apisix
+      containers:
+        - image: charlesvhe/apisix:all-in-one
+          imagePullPolicy: IfNotPresent
+          name: apisix
+          ports:
+            - containerPort: 9080
+            - containerPort: 9443
+            - containerPort: 9000
+          volumeMounts:
+          - name: apisix-config
+            subPath: apisix.yaml
+            mountPath: "/usr/local/apisix/conf/config.yaml"
+          - name: apisix-dashboard-config
+            subPath: dashboard.yaml
+            mountPath: "/usr/local/apisix-dashboard/conf/conf.yaml"
+      volumes:
+        - name: apisix-config
+          configMap:
+            name: apisix-config
+        - name: apisix-dashboard-config
+          configMap:
+            name: apisix-dashboard-config

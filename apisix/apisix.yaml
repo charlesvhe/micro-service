@@ -12,10 +12,10 @@ apisix:
     - name: "viewer"
       key: 4054f7cf07e344346cd3f287985e76a2
       role: viewer
-discovery:
-  nacos:
-    host:
-      - "http://nacos:8848"
+# discovery:
+#   nacos:
+#     host:
+#       - "http://nacos:8848"
 
 etcd:
   host:

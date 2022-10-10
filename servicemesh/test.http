@@ -1,0 +1,10 @@
+GET http://localhost:30080/apisix/admin/routes HTTP/1.1
+X-API-KEY: edd1c9f034335f136f87ad84b625c8f1
+
+GET http://localhost:30080/apisix/admin/plugins/list HTTP/1.1
+X-API-KEY: edd1c9f034335f136f87ad84b625c8f1
+
+
+GET http://localhost:30080/httpbin/image/jpeg HTTP/1.1
+
+GET http://localhost:30080/httpbin2/image/jpeg HTTP/1.1

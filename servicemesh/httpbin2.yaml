@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: httpbin2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin2
+  labels:
+    app: httpbin2
+    service: httpbin2
+spec:
+  type: NodePort  #对外暴露调试用
+  ports:
+    - name: httpbin-http
+      port: 80  #服务间调用端口
+      targetPort: 80  #容器端口
+      nodePort: 30082  #外部访问端口
+  selector:
+    app: httpbin2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpbin2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin2
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: httpbin2
+        version: v1
+    spec:
+      serviceAccountName: httpbin2
+      containers:
+        - image: kennethreitz/httpbin
+          imagePullPolicy: IfNotPresent
+          name: httpbin2
+          ports:
+            - containerPort: 80
+          volumeMounts:
+          - name: jackal-jpg
+            subPath: jackal.jpg
+            mountPath: "/usr/local/lib/python3.6/dist-packages/httpbin/templates/images/jackal.jpg"
+      volumes:
+        - name: jackal-jpg
+          configMap:
+            name: jackal-jpg
